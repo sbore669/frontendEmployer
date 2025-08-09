@@ -1,0 +1,242 @@
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.stat-card.primary .stat-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.stat-card.success .stat-icon {
+  background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+  color: white;
+}
+
+.stat-card.warning .stat-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.stat-card.info .stat-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+}
+
+.stat-icon i {
+  font-size: 1.5rem;
+}
+
+.stat-info h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+  color: #2c3e50;
+}
+
+.stat-info p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+/* Quick Actions */
+.quick-actions {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.action-btn {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #6c757d;
+  text-decoration: none;
+}
+
+.action-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+.action-btn i {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.action-btn span {
+  font-weight: 500;
+}
+
+/* Recent Activity */
+.recent-activity {
+  margin-bottom: 2rem;
+}
+
+.activity-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.activity-list {
+  padding: 0;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #f8f9fa;
+  transition: background-color 0.3s ease;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-item:hover {
+  background-color: #f8f9fa;
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.activity-icon.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.activity-icon.info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.activity-icon.warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-content h6 {
+  margin: 0 0 0.25rem 0;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.activity-content p {
+  margin: 0 0 0.25rem 0;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.activity-content small {
+  color: #adb5bd;
+  font-size: 0.75rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .activity-item {
+    padding: 1rem;
+  }
+  
+  .activity-icon {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .stat-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .stat-info h3 {
+    font-size: 1.5rem;
+  }
+}

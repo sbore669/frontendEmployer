@@ -1,0 +1,47 @@
+.card {
+  border: none;
+  border-radius: 15px;
+}
+
+.card-body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: white;
+  border-radius: 15px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.form-control {
+  border-radius: 10px;
+  border: 2px solid #e9ecef;
+  padding: 12px 15px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.text-primary {
+  color: #667eea !important;
+}
+
+.alert-danger {
+  border-radius: 10px;
+  border: none;
+  background-color: #f8d7da;
+  color: #721c24;
+}

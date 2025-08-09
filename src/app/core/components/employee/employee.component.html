@@ -1,0 +1,280 @@
+<div class="container-fluid p-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-1">
+        <i class="bi bi-people-fill me-2 text-primary"></i>
+        Gestion des Employés
+      </h2>
+      <p class="text-muted mb-0">{{ employees.length }} employé(s) au total</p>
+    </div>
+    <div class="d-grid d-md-block">
+      <button class="btn btn-primary" (click)="openAddModal()">
+        <i class="bi bi-person-plus me-2"></i>
+        <span class="d-none d-sm-inline">Ajouter un </span>employé
+      </button>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div class="alert alert-success alert-dismissible fade show" *ngIf="successMessage" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    {{ successMessage }}
+    <button type="button" class="btn-close" (click)="clearMessages()"></button>
+  </div>
+
+  <div class="alert alert-danger alert-dismissible fade show" *ngIf="errorMessage" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="clearMessages()"></button>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="row mb-3">
+    <div class="col-12 col-md-8 mb-2 mb-md-0">
+      <div class="input-group">
+        <span class="input-group-text">
+          <i class="bi bi-search"></i>
+        </span>
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Rechercher par nom, prénom, email..."
+          [(ngModel)]="searchTerm"
+          (input)="filterEmployees()">
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <select class="form-select" [(ngModel)]="selectedPosition" (change)="filterEmployees()">
+        <option value="">Tous les postes</option>
+        <option *ngFor="let position of getPositions()" [value]="position">{{ position }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="text-center py-5" *ngIf="isLoading && employees.length === 0">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-3 text-muted">Chargement des employés...</p>
+  </div>
+
+  <!-- Table -->
+  <div class="card" *ngIf="!isLoading || employees.length > 0">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col" class="d-none d-md-table-cell">#</th>
+              <th scope="col">Nom complet</th>
+              <th scope="col">Poste</th>
+              <th scope="col" class="d-none d-md-table-cell">Email</th>
+              <th scope="col" class="d-none d-lg-table-cell">Date d'embauche</th>
+              <th scope="col" class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let employee of filteredEmployees; let i = index; trackBy: trackByEmployeeId">
+              <th scope="row" class="text-muted d-none d-md-table-cell">{{ employee.id || i + 1 }}</th>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="avatar-circle me-2 me-md-3">
+                    {{ getInitials(employee.nom, employee.prenom) }}
+                  </div>
+                  <div class="flex-grow-1 min-width-0">
+                    <div class="fw-semibold">{{ employee.prenom }} {{ employee.nom }}</div>
+                    <div class="d-md-none">
+                      <small class="text-muted">
+                        <i class="bi bi-envelope me-1"></i>{{ employee.email }}
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="badge bg-primary">{{ employee.poste }}</span>
+                <div class="d-lg-none mt-1">
+                  <small class="text-muted">
+                    <i class="bi bi-calendar3 me-1"></i>{{ employee.dateEmbauche | date:'dd/MM/yyyy' }}
+                  </small>
+                </div>
+              </td>
+              <td class="d-none d-md-table-cell">
+                <a [href]="'mailto:' + employee.email" class="text-decoration-none">
+                  <i class="bi bi-envelope me-1"></i>
+                  {{ employee.email }}
+                </a>
+              </td>
+              <td class="d-none d-lg-table-cell">
+                <i class="bi bi-calendar3 me-1 text-muted"></i>
+                {{ employee.dateEmbauche | date:'dd/MM/yyyy' }}
+              </td>
+              <td class="text-center">
+                <div class="btn-group btn-group-sm d-none d-sm-flex" role="group">
+                  <button 
+                    class="btn btn-outline-primary" 
+                    (click)="openEditModal(employee)"
+                    title="Modifier">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button 
+                    class="btn btn-outline-danger" 
+                    (click)="deleteEmployee(employee)"
+                    title="Supprimer">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+                <!-- Actions pour mobile -->
+                <div class="d-sm-none">
+                  <button 
+                    class="btn btn-outline-primary btn-sm me-1" 
+                    (click)="openEditModal(employee)"
+                    title="Modifier">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button 
+                    class="btn btn-outline-danger btn-sm" 
+                    (click)="deleteEmployee(employee)"
+                    title="Supprimer">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Empty State -->
+        <div class="text-center py-5" *ngIf="filteredEmployees.length === 0 && !isLoading">
+          <i class="bi bi-people display-1 text-muted mb-3"></i>
+          <h4 class="text-muted">{{ employees.length === 0 ? 'Aucun employé trouvé' : 'Aucun résultat' }}</h4>
+          <p class="text-muted">
+            {{ employees.length === 0 ? 'Commencez par ajouter votre premier employé' : 'Essayez de modifier vos critères de recherche' }}
+          </p>
+          <button class="btn btn-primary" (click)="openAddModal()" *ngIf="employees.length === 0">
+            <i class="bi bi-person-plus me-2"></i>
+            Ajouter un employé
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade show" [class.d-block]="isModalOpen" [class.d-none]="!isModalOpen" tabindex="-1" role="dialog">
+  <div class="modal-backdrop fade show" (click)="closeModal()"></div>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-person-plus me-2" *ngIf="!isEditMode"></i>
+          <i class="bi bi-pencil me-2" *ngIf="isEditMode"></i>
+          {{ isEditMode ? 'Modifier l\'employé' : 'Ajouter un employé' }}
+        </h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+
+      <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="row">
+            <!-- Nom -->
+            <div class="col-md-6 mb-3">
+              <label for="nom" class="form-label">Nom *</label>
+              <input 
+                type="text" 
+                class="form-control"
+                [class.is-invalid]="nom?.invalid && nom?.touched"
+                id="nom" 
+                formControlName="nom"
+                placeholder="Entrez le nom">
+              <div class="invalid-feedback" *ngIf="nom?.invalid && nom?.touched">
+                <small *ngIf="nom?.errors?.['required']">Le nom est requis</small>
+                <small *ngIf="nom?.errors?.['minlength']">Le nom doit contenir au moins 2 caractères</small>
+              </div>
+            </div>
+
+            <!-- Prénom -->
+            <div class="col-md-6 mb-3">
+              <label for="prenom" class="form-label">Prénom *</label>
+              <input 
+                type="text" 
+                class="form-control"
+                [class.is-invalid]="prenom?.invalid && prenom?.touched"
+                id="prenom" 
+                formControlName="prenom"
+                placeholder="Entrez le prénom">
+              <div class="invalid-feedback" *ngIf="prenom?.invalid && prenom?.touched">
+                <small *ngIf="prenom?.errors?.['required']">Le prénom est requis</small>
+                <small *ngIf="prenom?.errors?.['minlength']">Le prénom doit contenir au moins 2 caractères</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Poste -->
+            <div class="col-md-6 mb-3">
+              <label for="poste" class="form-label">Poste *</label>
+              <input 
+                type="text" 
+                class="form-control"
+                [class.is-invalid]="poste?.invalid && poste?.touched"
+                id="poste" 
+                formControlName="poste"
+                placeholder="Ex: Développeur, Manager...">
+              <div class="invalid-feedback" *ngIf="poste?.invalid && poste?.touched">
+                <small *ngIf="poste?.errors?.['required']">Le poste est requis</small>
+              </div>
+            </div>
+
+            <!-- Date d'embauche -->
+            <div class="col-md-6 mb-3">
+              <label for="dateEmbauche" class="form-label">Date d'embauche *</label>
+              <input 
+                type="date" 
+                class="form-control"
+                [class.is-invalid]="dateEmbauche?.invalid && dateEmbauche?.touched"
+                id="dateEmbauche" 
+                formControlName="dateEmbauche">
+              <div class="invalid-feedback" *ngIf="dateEmbauche?.invalid && dateEmbauche?.touched">
+                <small *ngIf="dateEmbauche?.errors?.['required']">La date d'embauche est requise</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Email *</label>
+            <input 
+              type="email" 
+              class="form-control"
+              [class.is-invalid]="email?.invalid && email?.touched"
+              id="email" 
+              formControlName="email"
+              placeholder="exemple@email.com">
+            <div class="invalid-feedback" *ngIf="email?.invalid && email?.touched">
+              <small *ngIf="email?.errors?.['required']">L'email est requis</small>
+              <small *ngIf="email?.errors?.['email']">Format d'email invalide</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">
+            Annuler
+          </button>
+          <button 
+            type="submit" 
+            class="btn btn-primary"
+            [disabled]="isLoading">
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status"></span>
+            <i class="bi bi-check-lg me-2" *ngIf="!isLoading"></i>
+            {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

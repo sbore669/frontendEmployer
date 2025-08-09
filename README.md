@@ -1,59 +1,138 @@
-# FrontEndEmployee
+# Application de Gestion d'Employés - Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.9.
+Cette application Angular permet de gérer les employés avec un système d'authentification intégré.
 
-## Development server
+## Fonctionnalités
 
-To start a local development server, run:
+- ✅ Authentification avec JWT
+- ✅ Interface utilisateur avec Bootstrap
+- ✅ Dashboard avec statistiques
+- ✅ Protection des routes avec AuthGuard
+- ✅ Gestion des tokens et localStorage
+- ✅ Compatible SSR (Server-Side Rendering)
 
+## Installation
+
+1. Installer les dépendances :
+```bash
+npm install
+```
+
+2. Lancer l'application :
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+L'application sera accessible sur `http://localhost:4200`
 
-## Code scaffolding
+## Configuration Backend
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+L'application est configurée pour se connecter à l'API backend sur `http://localhost:8080/api/auth`
 
-```bash
-ng generate component component-name
+Pour modifier l'URL du backend, éditer le fichier `src/app/services/auth.service.ts` :
+
+```typescript
+private apiUrl = 'http://localhost:8080/api/auth'; // Modifier cette URL
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Authentification
 
-```bash
-ng generate --help
+### Endpoint de connexion
+```
+POST /api/auth/login
+Content-Type: application/json
+
+{
+    "username": "john_doe",
+    "password": "password123"
+}
 ```
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
+### Réponse attendue
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "type": "Bearer",
+    "username": "john_doe",
+    "email": "john@example.com"
+}
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Structure du projet
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```
+src/
+├── app/
+│   ├── auth/                    # Module d'authentification
+│   │   ├── components/
+│   │   │   ├── login/           # Composant de connexion
+│   │   │   └── redirect/        # Gestion de la redirection
+│   │   ├── services/
+│   │   │   ├── auth.service.ts  # Service d'authentification
+│   │   │   └── auth.interceptor.ts # Intercepteur HTTP
+│   │   ├── models/
+│   │   │   └── auth.model.ts    # Modèles TypeScript
+│   │   ├── guards/
+│   │   │   └── auth.guard.ts    # Protection des routes
+│   │   └── index.ts             # Exports du module auth
+│   ├── core/                    # Module principal
+│   │   ├── components/
+│   │   │   └── dashboard/       # Tableau de bord principal
+│   │   └── index.ts             # Exports du module core
+│   └── app.routes.ts            # Configuration des routes
 ```
 
-## Running end-to-end tests
+### Organisation modulaire
 
-For end-to-end (e2e) testing, run:
+- **auth/** : Tout ce qui concerne l'authentification (login, services, guards, etc.)
+- **core/** : Composants principaux de l'application (dashboard, etc.)
+- **index.ts** : Fichiers d'export pour simplifier les imports
 
+## Utilisation
+
+1. **Page de connexion** : Accessible sur `/login`
+   - Saisir nom d'utilisateur et mot de passe
+   - Validation des champs obligatoires
+   - Gestion des erreurs d'authentification
+
+2. **Dashboard** : Accessible sur `/dashboard` (protégé)
+   - Affichage des statistiques
+   - Menu de navigation
+   - Bouton de déconnexion
+
+3. **Redirection automatique** :
+   - Si connecté : redirection vers `/dashboard`
+   - Si non connecté : redirection vers `/login`
+
+## Technologies utilisées
+
+- **Angular 19** - Framework frontend
+- **Bootstrap 5** - Framework CSS
+- **Bootstrap Icons** - Icônes
+- **RxJS** - Programmation réactive
+- **TypeScript** - Langage de programmation
+
+## Développement
+
+Pour ajouter de nouvelles fonctionnalités :
+
+1. **Nouveaux composants** :
 ```bash
-ng e2e
+ng generate component components/nom-composant
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+2. **Nouveaux services** :
+```bash
+ng generate service services/nom-service
+```
 
-## Additional Resources
+3. **Nouvelles routes** :
+Modifier `src/app/app.routes.ts`
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Build de production
+
+```bash
+ng build --configuration production
+```
+
+Les fichiers de build seront générés dans le dossier `dist/`.
