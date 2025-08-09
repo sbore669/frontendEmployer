@@ -1,138 +1,158 @@
-# Application de Gestion d'Employés - Frontend
+# 🚀 Application de Gestion d'Employés
 
-Cette application Angular permet de gérer les employés avec un système d'authentification intégré.
+Application Angular avec support Electron pour la gestion des employés.
 
-## Fonctionnalités
+## 📋 Prérequis
 
-- ✅ Authentification avec JWT
-- ✅ Interface utilisateur avec Bootstrap
-- ✅ Dashboard avec statistiques
-- ✅ Protection des routes avec AuthGuard
-- ✅ Gestion des tokens et localStorage
-- ✅ Compatible SSR (Server-Side Rendering)
+- **Node.js** 18+ 
+- **npm** 9+
+- **Angular CLI** 19
 
-## Installation
+## ⚡ Installation Rapide
 
-1. Installer les dépendances :
 ```bash
+# 1. Cloner le projet
+git clone https://github.com/sbore669/frontendEmployer.git
+cd frontEnd_employee
+
+# 2. Installer les dépendances
 npm install
 ```
 
-2. Lancer l'application :
+## 🌐 Lancement Frontend (Navigateur)
+
+### **Lancement Simple**
+```bash
+npm start
+```
+L'application sera accessible sur **http://localhost:4200**
+
+### **Lancement avec Angular CLI**
 ```bash
 ng serve
 ```
 
-L'application sera accessible sur `http://localhost:4200`
-
-## Configuration Backend
-
-L'application est configurée pour se connecter à l'API backend sur `http://localhost:8080/api/auth`
-
-Pour modifier l'URL du backend, éditer le fichier `src/app/services/auth.service.ts` :
-
-```typescript
-private apiUrl = 'http://localhost:8080/api/auth'; // Modifier cette URL
-```
-
-## Authentification
-
-### Endpoint de connexion
-```
-POST /api/auth/login
-Content-Type: application/json
-
-{
-    "username": "john_doe",
-    "password": "password123"
-}
-```
-
-### Réponse attendue
-```json
-{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "type": "Bearer",
-    "username": "john_doe",
-    "email": "john@example.com"
-}
-```
-
-## Structure du projet
-
-```
-src/
-├── app/
-│   ├── auth/                    # Module d'authentification
-│   │   ├── components/
-│   │   │   ├── login/           # Composant de connexion
-│   │   │   └── redirect/        # Gestion de la redirection
-│   │   ├── services/
-│   │   │   ├── auth.service.ts  # Service d'authentification
-│   │   │   └── auth.interceptor.ts # Intercepteur HTTP
-│   │   ├── models/
-│   │   │   └── auth.model.ts    # Modèles TypeScript
-│   │   ├── guards/
-│   │   │   └── auth.guard.ts    # Protection des routes
-│   │   └── index.ts             # Exports du module auth
-│   ├── core/                    # Module principal
-│   │   ├── components/
-│   │   │   └── dashboard/       # Tableau de bord principal
-│   │   └── index.ts             # Exports du module core
-│   └── app.routes.ts            # Configuration des routes
-```
-
-### Organisation modulaire
-
-- **auth/** : Tout ce qui concerne l'authentification (login, services, guards, etc.)
-- **core/** : Composants principaux de l'application (dashboard, etc.)
-- **index.ts** : Fichiers d'export pour simplifier les imports
-
-## Utilisation
-
-1. **Page de connexion** : Accessible sur `/login`
-   - Saisir nom d'utilisateur et mot de passe
-   - Validation des champs obligatoires
-   - Gestion des erreurs d'authentification
-
-2. **Dashboard** : Accessible sur `/dashboard` (protégé)
-   - Affichage des statistiques
-   - Menu de navigation
-   - Bouton de déconnexion
-
-3. **Redirection automatique** :
-   - Si connecté : redirection vers `/dashboard`
-   - Si non connecté : redirection vers `/login`
-
-## Technologies utilisées
-
-- **Angular 19** - Framework frontend
-- **Bootstrap 5** - Framework CSS
-- **Bootstrap Icons** - Icônes
-- **RxJS** - Programmation réactive
-- **TypeScript** - Langage de programmation
-
-## Développement
-
-Pour ajouter de nouvelles fonctionnalités :
-
-1. **Nouveaux composants** :
+### **Options de Lancement**
 ```bash
-ng generate component components/nom-composant
+# Port personnalisé
+ng serve --port 4200
+
+# Host externe (pour tester sur mobile)
+ng serve --host 0.0.0.0
+
+# Configuration spécifique
+ng serve --configuration development
 ```
 
-2. **Nouveaux services** :
+## 🖥️ Lancement ElectronJS (Desktop)
+
+### **Lancement en Mode Développement**
 ```bash
-ng generate service services/nom-service
+npm run electron
 ```
 
-3. **Nouvelles routes** :
-Modifier `src/app/app.routes.ts`
-
-## Build de production
-
+### **Build Electron**
 ```bash
-ng build --configuration production
+npm run electron:build
 ```
 
-Les fichiers de build seront générés dans le dossier `dist/`.
+### **Lancement avec Options**
+```bash
+# Mode debug
+npm run electron:debug
+
+# Mode production
+npm run electron:prod
+```
+
+## 🏗️ Build Production
+
+### **Frontend Web**
+```bash
+npm run build
+```
+Les fichiers seront générés dans `dist/front-end-employee/`
+
+### **Application Desktop**
+```bash
+npm run electron:build
+```
+
+## 🔧 Configuration Backend
+
+L'application se connecte à l'API backend sur `http://localhost:8080/api/auth`
+
+**Modifier l'URL :** `src/app/core/services/environment.service.ts`
+
+## 🚨 Dépannage Rapide
+
+### **Port 4200 déjà utilisé**
+```bash
+# Tuer le processus
+lsof -ti:4200 | xargs kill -9
+
+# Ou utiliser un autre port
+npm start -- --port 4201
+```
+
+### **Angular CLI manquant**
+```bash
+npm install -g @angular/cli@19
+```
+
+### **Dépendances corrompues**
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### **Problèmes Electron**
+```bash
+# Nettoyer le cache
+npm run electron:clean
+
+# Réinstaller les dépendances
+npm install
+```
+
+## 📱 Commandes Utiles
+
+| Commande | Description |
+|----------|-------------|
+| `npm start` | 🚀 Lancer l'application web |
+| `npm run electron` | 🖥️ Lancer l'application desktop |
+| `npm run build` | 🏗️ Build production web |
+| `npm run electron:build` | 🖥️ Build production desktop |
+| `npm test` | 🧪 Lancer les tests |
+| `npm run lint` | 🔍 Vérifier le code |
+
+## 🌟 Fonctionnalités
+
+- ✅ **Authentification** avec JWT
+- ✅ **Inscription** utilisateur et administrateur
+- ✅ **Gestion des employés**
+- ✅ **Interface responsive** Bootstrap 5
+- ✅ **Support desktop** avec Electron
+- ✅ **Composants standalone** Angular 19
+
+## 📁 Structure du Projet
+
+```
+frontEnd_employee/
+├── src/                    # Code source Angular
+├── electron/              # Configuration Electron
+├── package.json           # Dépendances et scripts
+└── README.md             # Ce fichier
+```
+
+## 🚀 Démarrage Rapide
+
+1. **Cloner** le projet
+2. **Installer** : `npm install`
+3. **Lancer web** : `npm start`
+4. **Lancer desktop** : `npm run electron`
+5. **C'est parti !** 🎉
+
+---
+
+**Développé avec Angular 19 + Electron**
