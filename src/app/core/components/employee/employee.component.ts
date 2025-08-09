@@ -48,11 +48,11 @@ export class EmployeeComponent implements OnInit {
 
   checkTokenStatus(): void {
     const tokenInfo = this.authService.getTokenInfo();
-    console.log('=== DEBUG TOKEN ===');
-    console.log('Token info:', tokenInfo);
-    console.log('Is expired:', this.authService.isTokenExpired());
-    console.log('Current time:', new Date());
-    console.log('==================');
+    // console.log('=== DEBUG TOKEN ===');
+    // console.log('Token info:', tokenInfo);
+    // console.log('Is expired:', this.authService.isTokenExpired());
+    // console.log('Current time:', new Date());
+    // console.log('==================');
   }
 
   loadEmployees(): void {

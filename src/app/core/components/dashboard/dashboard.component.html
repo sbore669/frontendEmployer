@@ -4,7 +4,7 @@
     <!-- Logo/Brand -->
     <div class="sidebar-header">
       <div class="brand">
-        <i class="bi bi-shield-check"></i>
+        <!-- <i class="bi bi-shield-check"></i> -->
         <span class="brand-text">Admin Panel</span>
       </div>
     </div>
@@ -31,9 +31,15 @@
           </a>
         </li> -->
         <li class="nav-item">
-          <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+          <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">
             <i class="bi bi-people"></i>
             <span>Employés</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/dashboard/historique" routerLinkActive="active" class="nav-link">
+            <i class="bi bi-clock-history"></i>
+            <span>Historique</span>
           </a>
         </li>
 

@@ -3,20 +3,23 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { LoginRequest, LoginResponse, User } from '../models/auth.model';
+import { LoginRequest, LoginResponse, User, InscriptionRequest, InscriptionAdminRequest } from '../models/auth.model';
+import { EnvironmentService } from '../../core/services/environment.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth'; // Ajuste l'URL selon ton backend
+  private apiUrl: string;
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(
     private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private environmentService: EnvironmentService
   ) {
+    this.apiUrl = this.environmentService.getApiUrl('auth');
     // Vérifier si un token existe au démarrage
     if (isPlatformBrowser(this.platformId)) {
       this.checkStoredToken();
@@ -40,6 +43,24 @@ export class AuthService {
             username: response.username,
             email: response.email
           });
+        })
+      );
+  }
+
+  inscription(inscriptionData: InscriptionRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}/inscription`, inscriptionData, { responseType: 'text' })
+      .pipe(
+        tap(response => {
+          console.log('Réponse brute du backend:', response);
+        })
+      );
+  }
+
+  addAdmin(adminData: InscriptionAdminRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}/addAdmin`, adminData, { responseType: 'text' })
+      .pipe(
+        tap(response => {
+          console.log('Réponse brute du backend:', response);
         })
       );
   }

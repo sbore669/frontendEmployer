@@ -46,6 +46,13 @@
   color: #721c24;
 }
 
+.alert-success {
+  border-radius: 10px;
+  border: none;
+  background-color: #d4edda;
+  color: #155724;
+}
+
 .text-decoration-none:hover {
   text-decoration: underline !important;
 }
@@ -68,3 +75,63 @@ hr {
   border-color: #e9ecef;
   opacity: 0.5;
 }
+
+/* Styles pour la sélection de rôle */
+.role-selector {
+  margin-top: 10px;
+}
+
+.role-option {
+  position: relative;
+  flex: 1;
+  max-width: 200px;
+}
+
+.role-radio {
+  display: none;
+}
+
+.role-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: #6c757d;
+  text-align: center;
+  min-height: 60px;
+}
+
+.role-label:hover {
+  border-color: #667eea;
+  background: #f0f2ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.role-radio:checked + .role-label {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+.role-label i {
+  font-size: 1.2em;
+  margin-right: 8px;
+}
+
+/* Animation pour le changement de rôle */
+.role-option {
+  transition: all 0.3s ease;
+}
+
+.role-option:hover {
+  transform: scale(1.02);
+} 

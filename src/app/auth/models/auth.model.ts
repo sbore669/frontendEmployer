@@ -3,6 +3,18 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface InscriptionRequest {
+  username: string;
+  password: string;
+  email: string;
+}
+
+export interface InscriptionAdminRequest {
+  username: string;
+  password: string;
+  email: string;
+}
+
 export interface LoginResponse {
   token: string;
   type: string;

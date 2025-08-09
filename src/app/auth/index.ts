@@ -12,4 +12,5 @@ export * from './guards/auth.guard';
 
 // Auth Components
 export * from './components/login/login.component';
+export * from './components/inscription/inscription.component';
 export * from './components/redirect/redirect.component';

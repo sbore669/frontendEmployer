@@ -61,4 +61,13 @@ export class LoginComponent {
 
   get username() { return this.loginForm.get('username'); }
   get password() { return this.loginForm.get('password'); }
+
+  goToInscription(): void {
+    console.log('goToInscription appelée - Navigation vers /inscription');
+    this.router.navigate(['/inscription']).then(() => {
+      console.log('Navigation vers /inscription réussie');
+    }).catch(error => {
+      console.error('Erreur de navigation vers /inscription:', error);
+    });
+  }
 }

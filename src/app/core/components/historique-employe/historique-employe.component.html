@@ -1,0 +1,65 @@
+<div class="historique-container">
+  <h2>Historique des modifications employés</h2>
+  
+  <div class="filters-container">
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (input)="applyFilters()" 
+        placeholder="Rechercher..."
+        class="form-control"
+      >
+    </div>
+    
+    <div class="filter-box">
+      <select 
+        [(ngModel)]="actionFilter" 
+        (change)="applyFilters()" 
+        class="form-select"
+      >
+        <option *ngFor="let type of actionTypes" [value]="type.value">{{ type.label }}</option>
+      </select>
+    </div>
+    
+    <button 
+      class="btn btn-outline-secondary" 
+      (click)="resetFilters()"
+    >
+      Réinitialiser les filtres
+    </button>
+  </div>
+  
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Employé</th>
+          <th>Action</th>
+          <th>Détails</th>
+          <th>Modifié par</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entry of filteredEntries">
+          <td>{{ formatDate(entry.timestamp) }}</td>
+          <td>{{ entry.employeeName }}</td>
+          <td>
+            <span [ngClass]="getActionClass(entry.action)" class="action-badge">
+              {{ entry.action === 'CREATE' ? 'Création' : 
+                 entry.action === 'UPDATE' ? 'Mise à jour' : 
+                 entry.action === 'DELETE' ? 'Suppression' : entry.action }}
+            </span>
+          </td>
+          <td>{{ entry.details }}</td>
+          <td>{{ entry.modifiedBy }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div *ngIf="filteredEntries.length === 0" class="no-data">
+    <p>Aucune donnée d'historique trouvée.</p>
+  </div>
+</div>

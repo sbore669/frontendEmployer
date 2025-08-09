@@ -56,6 +56,23 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "electron": {
+              "outputMode": "static",
+              "outputPath": "dist/front-end-employee",
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
             }
           },
           "defaultConfiguration": "production"
